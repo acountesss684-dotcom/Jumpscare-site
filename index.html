@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">  
+<title>Web Site</title>
+<meta property="og:title" content="Web Site"> 
+<meta property="og:site_name" content="Site">
+<meta property="og:image" content="https://gitlab.com/MezeLeem/Screamer-Scream/-/raw/main/icon.png"> 
+<meta property="og:description" content="WebSite"> 
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="photo">
+<meta name="twitter:title" content="Site">
+<meta name="twitter:site" content="WebSite">
+<meta name="twitter:description" content="Site">
+<meta name="twitter:image:src" content="https://gitlab.com/MezeLeem/Screamer-Scream/-/raw/main/icon.png">
+<link rel="icon" type="image/png" href="https://gitlab.com/MezeLeem/Screamer-Scream/-/raw/main/icon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&amp;display=swap" rel="stylesheet">
+<style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                overflow: hidden;
+            }
+
+            .scare {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100vw;
+                z-index: 1;
+            }
+
+            video#video {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            video#video::-webkit-media-controls-enclosure {
+                display: none !important;
+            }
+        </style>
+</head>
+<body>
+<div class="scare">
+<video id="video" class="video" src="https://gitlab.com/MezeLeem/Screamer-Scream/-/raw/main/video.mp4" loop autoplay muted></video>
+</div>
+<script type="text/javascript">
+            const video = document.getElementById("video");
+            
+            // Включаем звук после первого клика (разрешение автовоспроизведения)
+            document.body.addEventListener("click", function enableSound() {
+                video.muted = false;
+                video.volume = 1;
+                video.play();
+                document.body.removeEventListener("click", enableSound);
+            });
+            
+            // Включаем полноэкранный режим
+            function goFullscreen() {
+                const { documentElement } = document;
+                if(documentElement.requestFullscreen) documentElement.requestFullscreen();
+                else if(documentElement.mozRequestFullScreen) documentElement.mozRequestFullScreen();
+                else if(documentElement.webkitRequestFullscreen) documentElement.webkitRequestFullscreen();
+                else if(documentElement.msRequestFullscreen) documentElement.msRequestFullscreen();
+            }
+            
+            // Запуск видео и полноэкранного режима
+            video.play().catch(e => console.log("Автовоспроизведение заблокировано, нужен клик"));
+            
+            // При клике в любом месте включаем полноэкранный режим и звук
+            document.body.addEventListener("click", function() {
+                video.muted = false;
+                video.volume = 1;
+                video.play();
+                goFullscreen();
+            });
+            
+            // Блокируем Esc
+            document.addEventListener("keydown", function(e) {
+                if(e.key === "Escape") {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Предупреждение при закрытии
+            window.onbeforeunload = function() {
+                return true;
+            };
+        </script>
+</body>
+</html>
